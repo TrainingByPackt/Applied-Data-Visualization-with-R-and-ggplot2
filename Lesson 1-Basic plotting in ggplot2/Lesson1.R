@@ -17,7 +17,7 @@ str(df_hum)
 colnames(df_hum)
 
 #Number of columns and rows
-ndim(df_hum)
+dim(df_hum)
 
 #Data and variable investigation
 data()
@@ -50,10 +50,8 @@ ggplot(df_t,aes(x=Vancouver))+geom_histogram()
 ggplot(df_t,aes(x=Seattle))+geom_histogram()
 
 #Barchart
-
 glimpse(df_desc)
 ggplot(df_desc,aes(x=Vancouver)) + geom_bar()
-
 
 #Exercise: Create a barchart
 ggplot(df_desc,aes(x=Seattle)) + geom_bar()
@@ -64,6 +62,7 @@ ggplot(df_desc,aes(x=Seattle)) + geom_bar()
 df_hum$datetime <- as.character(df_hum$datetime)
 df_hum$month <- substr(df_hum$datetime,6,7)
 
+#Instructor Display
 ggplot(df_hum,aes(x=month,y=Vancouver)) + geom_boxplot()
 
 #Exercise - Create a boxplot
@@ -73,12 +72,14 @@ ggplot(df_hum,aes(x=month,y=San.Francisco)) + geom_boxplot()
 #Scatterplot
 a=3.4
 v0=27
-#time <- seq(from = 0, to = 200, by = 20)
+
 #Generate some random time numbers
 time <- runif(50, min=0, max=200)
 distance <- sapply(time, function(x) v0*x + 0.5*a*x^2)
 df <- data.frame(time,distance)
 ggplot(df,aes(x=time,y=distance)) + geom_point()
+
+ggplot(df,aes(x=time,y=distance)) + geom_line()
 
 #Exercise - Create a Linechart
 df_hum$monthn <- as.numeric(df_hum$month)
@@ -92,13 +93,6 @@ ggplot(data = dfgp1, aes(x=monthn,y=mean)) + geom_line() + xlab("Month") +
 #Activity C - Dataset
 df_edu <- read.csv("data/xAPI-Edu-Data.csv")
 str(df_edu)
-plotbar(df_edu,"Topic")
-plotbar(df_edu,"gender")
-plotbar(df_edu,"ParentschoolSatisfaction")
-plothist(df_edu,"VisITedResources")
-ggplot(df_edu,aes(x=Topic,y=VisITedResources)) + geom_boxplot()
-ggplot(df_edu,aes(x=AnnouncementsView,y=VisITedResources)) + geom_point()
-ggplot(df_edu,aes(x=gender,y=Discussion)) + geom_boxplot()
 
 #Functions for Plotting a barchart/Histogram
 plotbar <- function(df,mytxt) {
@@ -109,8 +103,22 @@ plothist <- function(df,mytxt) {
   ggplot(df,aes_string(x=mytxt)) + geom_histogram()
 }
 
-#Grammar of Graphics (Changing the defaults using layeres structure)
+#Alternatively one can use a function to plot but students can just
+#do it directly at this point.
+#1-D Plots
+plotbar(df_edu,"Topic")
+plotbar(df_edu,"gender")
+plotbar(df_edu,"ParentschoolSatisfaction")
+plothist(df_edu,"VisITedResources")
 
+#2-D Plots
+ggplot(df_edu,aes(x=Topic,y=VisITedResources)) + geom_boxplot()
+ggplot(df_edu,aes(x=AnnouncementsView,y=VisITedResources)) + geom_point()
+ggplot(df_edu,aes(x=gender,y=Discussion)) + geom_boxplot()
+
+
+
+#Grammar of Graphics (Changing the defaults using layered structure)
 #Rebinning
 ggplot(df_hum,aes(x=Vancouver))+geom_histogram(bins=15)
 
@@ -122,6 +130,7 @@ ggplot(df_hum,aes(x=Vancouver))+
                     theme(axis.text.x=element_text(size = 12),
                           axis.text.y=element_text(size=12))
 
+#Checking the theme options
 ?theme
 
 #Exercise - Create a improved Boxplot                
