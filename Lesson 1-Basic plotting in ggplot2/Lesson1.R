@@ -3,7 +3,7 @@ require("tibble")
 
 #Basic commands in R
 #Set working directory to wherever you have your data
-setwd(".")
+setwd("..")
 #Check working directory
 getwd()
 
