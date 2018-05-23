@@ -109,11 +109,11 @@ plothist <- function(df,mytxt) {
 plotbar(df_edu,"Topic")
 plotbar(df_edu,"gender")
 plotbar(df_edu,"ParentschoolSatisfaction")
-plothist(df_edu,"edResources")
+plothist(df_edu,"VisitedResources")
 
 #2-D Plots
-ggplot(df_edu,aes(x=Topic,y=edResources)) + geom_boxplot()
-ggplot(df_edu,aes(x=AnnouncementsView,y=edResources)) + geom_point()
+ggplot(df_edu,aes(x=Topic,y=VisitedResources)) + geom_boxplot()
+ggplot(df_edu,aes(x=AnnouncementsView,y=VisitedResources)) + geom_point()
 ggplot(df_edu,aes(x=gender,y=Discussion)) + geom_boxplot()
 
 
@@ -147,7 +147,7 @@ ggplot(df_hum,aes(x=month,y=Vancouver)) +
 
 #Activity D - Improve the visualizations using grammar of graphics
 p1 <- ggplot(df_edu,aes(x=Topic))
-p2 <- ggplot(df_edu,aes(x=edResources))
+p2 <- ggplot(df_edu,aes(x=VisitedResources))
 
 #Improved plot
 p1 + 
@@ -161,8 +161,8 @@ p1 +
 
 p2 + 
   geom_histogram(bins=20,fill="white",color=1)+
-  ggtitle("ed Resources for Education data")+
-  xlab("ed Resources")+
+  ggtitle("Visited Resources for Education data")+
+  xlab("Visited Resources")+
   theme(axis.text.x=element_text(size = 12),
         axis.text.y=element_text(size=12),
         axis.title.x=element_text(size=15,color=4),
