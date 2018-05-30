@@ -1,9 +1,22 @@
+'
+Beginning Data Visualization with ggplot2 - Lesson 1
+
+Description: Codes and activities for Lesson1
+
+Author:Tania Moulik (tania.moulik@gmail.com)
+
+Prior to use install the packages: 
+install.packages("ggplot2")
+install.packages("tibble")
+
+'
 require("ggplot2")
 require("tibble")
 
 #Basic commands in R
 #Set working directory to wherever you have your data
-setwd("..")
+setwd(".")
+
 #Check working directory
 getwd()
 
