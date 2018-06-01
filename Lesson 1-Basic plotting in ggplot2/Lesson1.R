@@ -8,10 +8,14 @@ Author:Tania Moulik (tania.moulik@gmail.com)
 Prior to use install the packages: 
 install.packages("ggplot2")
 install.packages("tibble")
+install.packages("dplyr")
+install.packages("Lock5Data")
 
 '
 require("ggplot2")
 require("tibble")
+require("dplyr")
+require("Lock5Data")
 
 #Basic commands in R
 #Set working directory to wherever you have your data
@@ -50,7 +54,9 @@ df_desc <- read.csv("data/historical-hourly-weather-data/weather_description.csv
 str(df_hum)
 str(df_desc)
 
-#SubTopic : Create one and two-dimensional objects 
+#TopicB: Geometric Objects
+
+#Subtopic: Create one and two-dimensional objects in ggplot
 
 #Histogram using ggplot
 ggplot(df_hum,aes(x=Vancouver))+geom_histogram()
@@ -62,14 +68,33 @@ qplot(df_t$Vancouver)
 ggplot(df_t,aes(x=Vancouver))+geom_histogram()
 ggplot(df_t,aes(x=Seattle))+geom_histogram()
 
-#Barchart
+#Subtopic : Barchart
 glimpse(df_desc)
 ggplot(df_desc,aes(x=Vancouver)) + geom_bar()
 
-#Exercise: Create a barchart
+#Exercise: Create a 1-D barchart
 ggplot(df_desc,aes(x=Seattle)) + geom_bar()
 
-#Create a boxplot
+#Exercise:Create a 2D bar chart
+ggplot(RetailSales,aes(x=Month,y=Sales)) + geom_bar(stat="identity")
+
+#Note: months are not ordered.
+#Order the months:
+#Check levels
+levels(RetailSales$Month)
+#Check if it has NA vaues
+is.na(RetailSales)
+#It has NA values so remove them and create a new data set
+MyRetailSales <- na.omit(RetailSales)
+#Reorder the months
+MyRetailSales$Month <-factor(MyRetailSales$Month, 
+                             levels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                                        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"))
+#Plot
+ggplot(MyRetailSales,aes(x=Month,y=Sales)) + geom_bar(stat="identity")
+
+
+#Subtopic : Create a boxplot
 
 #Get the months from the datetime variable and create a month column.
 df_hum$datetime <- as.character(df_hum$datetime)
@@ -82,7 +107,7 @@ ggplot(df_hum,aes(x=month,y=Vancouver)) + geom_boxplot()
 ggplot(df_hum,aes(x=month,y=Seattle)) + geom_boxplot()
 ggplot(df_hum,aes(x=month,y=San.Francisco)) + geom_boxplot()
 
-#Scatterplot
+#Subtopic: Scatterplot
 a=3.4
 v0=27
 
@@ -103,7 +128,7 @@ dfgp1 <- dplyr::summarise(gp1,med = median(Vancouver),
 ggplot(data = dfgp1, aes(x=monthn,y=mean)) + geom_line() + xlab("Month") + 
   ylab("Mean Humidity")
 
-#Activity C - Dataset
+#Activity C - Create One and two-dimensional visualizations given a dataset
 df_edu <- read.csv("data/xAPI-Edu-Data.csv")
 str(df_edu)
 
@@ -132,10 +157,12 @@ ggplot(df_edu,aes(x=gender,y=Discussion)) + geom_boxplot()
 
 
 #Grammar of Graphics (Changing the defaults using layered structure)
+#Subtopic: Understanding and using grammar of graphics
+
 #Rebinning
 ggplot(df_hum,aes(x=Vancouver))+geom_histogram(bins=15)
 
-#Improve the plot
+#Improve plot by chaging defaults
 ggplot(df_hum,aes(x=Vancouver))+
                     geom_histogram(bins=15,fill="white",color=1)+
                     ggtitle("Humidity for Vancouver city")+
@@ -158,11 +185,11 @@ ggplot(df_hum,aes(x=month,y=Vancouver)) +
   axis.title.x=element_text(size=15,color=2),
   axis.title.y=element_text(size=15,color=2))
 
-#Activity D - Improve the visualizations using grammar of graphics
+#Activity D - Applying Grammar of graphics to produce an improved plot
+
 p1 <- ggplot(df_edu,aes(x=Topic))
 p2 <- ggplot(df_edu,aes(x=VisitedResources))
 
-#Improved plot
 p1 + 
   geom_bar(color=1,fill=3) + 
   ylab("Count")+ 
