@@ -61,14 +61,6 @@ t <- seq(0, 360, by=15)
 r <- 2
 qplot(r,t)+coord_polar(theta="y")+scale_y_continuous(breaks=seq(0,360,30))
 
-'
-#http://sape.inf.usi.ch/quick-reference/ggplot2/coord
-ggplot(df,aes(x=gdp_per_capita)) + geom_histogram()
-ggplot(df,aes(x=gdp_per_capita)) + geom_histogram() + coord_flip()
-ggplot(df1,aes(x=gdp_per_capita)) + geom_histogram() + coord_trans(x="sqrt")
-'
-
-
 #Activity A
 p <- ggplot(df, aes(x=gdp_per_capita, y=Electricity_consumption_per_capita)) +
   geom_point() +
