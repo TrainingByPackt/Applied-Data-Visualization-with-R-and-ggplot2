@@ -20,6 +20,7 @@ c) LoanStats.csv:
 Loan Data from Lending Tree - https://www.lendingclub.com/info/download-data.action
 
 '
+
 #Load Libraries
 library("ggplot2")
 library("tibble")
@@ -27,7 +28,7 @@ library("gridExtra")
 library("dplyr")
 library("Lock5Data")
 
-#Set pathname for the directory where you have the lesson in
+#Set pathname for the directory where you have data
 setwd(".")
 #Check working directory
 getwd()
@@ -51,9 +52,14 @@ p4 <- p3+xlab("Electricity consumption per capita")
 p4
 
 #Exercise- Scales
+
+p1 <- ggplot(df,aes(x=gdp_per_capita))
+p2 <- p1+geom_histogram()
+p2
 #Where does the maximum occur? We need to have a finer labelling to answer
 #the question
-p1 + scale_x_continuous(breaks=seq(0,40000,4000) )
+p2 + scale_x_continuous(breaks=seq(0,40000,4000) )
+
 
 #Coordinates - Differentiating between cartesian and polar coordinates.
 #Generate some random time numbers
@@ -62,26 +68,32 @@ r <- 2
 qplot(r,t)+coord_polar(theta="y")+scale_y_continuous(breaks=seq(0,360,30))
 
 #Activity A
-p <- ggplot(df, aes(x=gdp_per_capita, y=Electricity_consumption_per_capita)) +
+pA <- ggplot(df, aes(x=gdp_per_capita, y=Electricity_consumption_per_capita)) +
   geom_point() +
   scale_x_continuous(name="GDP",breaks = seq(0,50000,5000),
                      labels=scales::unit_format("K", 1e-3)) +
   scale_y_continuous(name="Electricity Consumption",
                      breaks = seq(0,20000,2000),
                      labels=scales::unit_format("K", 1e-3))
-p
-
+pA
 
 
 #Facet
-
 #Exercise
-dfs <- subset(df,Country %in% c("Germany","India","China","United States"))
 p <- ggplot(df, aes(x=gdp_per_capita, y=Electricity_consumption_per_capita)) + 
   geom_point()
 p + facet_grid(Country ~ .) #Horizontally Arranged
 p + facet_grid(. ~ Country) #Vertically Arranged
-p + facet_wrap(Country ~ .)
+p + facet_wrap(~Country)
+
+
+#Activity B
+pb1<-ggplot(df3,aes(x=loan_amnt))
+pb2<-pb1+geom_histogram(bins=10,fill="cadetblue4")
+#Facet_wrap
+pb3<-pb2+facet_wrap(~grade) 
+#Free y coordinate for the subplots
+pb4<-pb3+facet_wrap(~grade, scale="free_y")
 
 #Topic C: Visual components - Color and shape Differentiated
 
@@ -142,11 +154,56 @@ p8 <- p2+mytheme+ggtitle("Changed Plot with my theme")
 p8
 grid.arrange(p2,p8,ncol=2)
 
+#Activity D: Use themes and color differentiation in a plot.
+pd1 <- ggplot(df,aes(x=BMI_male,y=BMI_female))
+pd2 <- pd1+geom_point()
+pd3 <- pd1+geom_point(aes(color=Country),size=2)+
+  scale_colour_brewer(palette="Dark2")
+pd4 <- pd3+theme(axis.title=element_text(size=15,color="cadetblue4",
+                                         face="bold"),
+                 plot.title=element_text(color="cadetblue4",size=18,
+                                         face="bold.italic"),
+                 panel.background = element_rect(fill="azure",color="black"),
+                 panel.grid=element_blank(),
+                 legend.position="bottom",
+                 legend.justification="left",
+                 legend.title = element_blank(),
+                 legend.key = element_rect(color=3,fill="gray97")
+)+
+  xlab("BMI Male")+
+  ylab("BMI female")+
+  ggtitle("BMI female vs BMI Male")
+
+pd4
+
 #Geoms and statistics
-#density curve
+#Groupby and summarizing
+#Group the movies by Genre
+ggplot(HollywoodMovies,aes(Genre,AudienceScore))+geom_point()+theme(axis.text.x=element_text(angle=40))
 
-#Summarizing
-#Mean, Median, Mode, Quartiles
+gp_scr <- group_by(HollywoodMovies,Genre)
+
+gp_scr <- na.omit(gp_scr)
+#Calculate mean and SD for AudienceScore for a given Genre.
+dfnew <- dplyr::summarise(gp_scr,as_mean=mean(AudienceScore),
+                          as_sd=sd(AudienceScore),n=n())
+#Print
+dfnew
+
+#We need to order according to AS Mean.
+dfnew <- dfnew[order(dfnew$as_mean), ]
+
+#Plot
+pg1 <- ggplot(data = dfnew, aes(x=Genre,y=as_mean)) 
+#Note: R orders the names alphabetically. We don't want that.
+
+#Change the ordering of levels to keep Genres unordered.
+dfnew$Genre <-factor(dfnew$Genre, levels = dfnew$Genre)
 
 
-
+#New Plot 
+pg2 <- ggplot(data = dfnew, aes(x=Genre,y=as_mean)) 
+pg2 + geom_point()+
+  geom_errorbar(color="red",aes(ymin=as_mean-(as_sd/sqrt(n-1)), ymax = as_mean+
+                                  (as_sd/sqrt(n-1))))+ylab("Audiencescore Mean")+
+  theme(axis.text = element_text(angle=90))
