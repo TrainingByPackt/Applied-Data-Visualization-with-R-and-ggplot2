@@ -103,10 +103,10 @@ var2<-"gdp_per_capita"
 name1<- "Electricity/capita"
 name2<- "GDP/capita"
 # Change color and shape of points
-p1<- ggplot(dfs,aes_string(x=var1,y=var2))+
+p1<- ggplot(df,aes_string(x=var1,y=var2))+
   geom_point(color=2,shape=2)+xlim(0,10000)+xlab(name1)+ylab(name2)
 #Grouping points by a variable mapped to colour and shape
-p2 <- ggplot(dfs,aes_string(x=var1,y=var2))+
+p2 <- ggplot(df,aes_string(x=var1,y=var2))+
   geom_point(aes(color=Country,shape=Country))+xlim(0,10000)+xlab(name1)+ylab(name2)
 grid.arrange(p1, p2, nrow = 2)
 
