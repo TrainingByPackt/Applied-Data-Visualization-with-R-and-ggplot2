@@ -123,6 +123,10 @@ ggplot(dfn,aes(x=home_ownership,y=loan_amnt))+geom_boxplot(aes(fill=grade))
 #People with higher credit grades take smaller loans
 #People with lower credit grades take small loans if they don't have a mortgage.
 
+#Finer labelling in y to answer 5c
+ggplot(dfn,aes(x=home_ownership,y=loan_amnt))+geom_boxplot(aes(fill=grade))+
+  scale_y_continuous(breaks=seq(0,40000,2000))
+
 #Themes
 #Exercise
 dfn <- subset(HollywoodMovies, Genre %in% c("Action","Adventure","Comedy","Drama","Romance")
