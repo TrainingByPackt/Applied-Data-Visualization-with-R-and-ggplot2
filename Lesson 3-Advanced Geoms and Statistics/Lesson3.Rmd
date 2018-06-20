@@ -1,0 +1,336 @@
+---
+title: "Lesson3: Advanced Geoms and Statistics"
+author: "Tania Moulik"
+date: "June 13, 2018"
+output: word_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Description
+This code contain Exercies and Activities for Lesson 3. This is a R Markdown
+file. To Run it, click on "Run" and choose "Run all chunks below". The plots
+are visible under the individual chunks below.
+
+This code can be converted to a "PDF" by clicking on "Knit" and selecting
+"PDF"
+
+### Libraries used:
+Lock5Data - contains some pre-made datasets. 
+tibble
+dplyr
+
+
+Prior to use, install the following packages:
+install.packages("ggplot2")
+install.packages("tibble")
+install.packages("dplyr")
+install.packages("gridExtra")
+install.packages("Lock5Data")
+install.packages("maps")
+install.packages("mapproj")
+install.packages("corrplot")
+
+Used datafiles and sources:
+a) gapminder.csv - Modified dataset from various datasets available at:
+https://www.gapminder.org/data/
+b) xAPI-Edu-Data.csv:
+https://www.kaggle.com/aljarah/xAPI-Edu-Data/data
+c) LoanStats.csv:
+Loan Data from Lending Tree - https://www.lendingclub.com/info/download-data.action
+d) Lock5Data
+
+
+
+
+```{r load}
+require("ggplot2")
+require("tibble")
+require("dplyr")
+require("Lock5Data")
+require("zoo")
+require("corrplot")
+
+```
+
+```{r read}
+#Load the data files
+df <- read.csv("data/gapminder-data.csv")
+df2 <- read.csv("data/xAPI-Edu-Data.csv")
+df3 <- read.csv("data/LoanStats.csv")
+
+```
+
+
+###Exercise 
+Create a bubble chart
+
+```{r bubble}
+dfs <- subset(df,Country %in% c("Germany","India","China","United States","Japan"))
+
+ggplot(dfs,aes(x=Year,y=Electricity_consumption_per_capita)) + geom_point(aes(size=population,color=Country))+
+  coord_cartesian(xlim=c(1950,2020))+
+labs(subtitle="Electricity consumption vs Year",
+       title="Bubble chart")+ylab("Electricity consumption")+
+  scale_size(breaks=c(0,1e+8,0.3e+9,0.5e+9,1e+9,1.5e+9),range=c(1,5))
+
+```
+
+### Exercise: Creating density plots
+
+```{r density}
+#df3
+
+#Let's do a histogram first and sub divide into the different grades.
+ggplot(df3,aes(x=loan_amnt)) + geom_histogram() + facet_wrap(~grade)
+
+# We cannot see the shapes of the E,F,G grades very clearly. Also all the
+#grades have different histogram counts. It would be better to use a density
+#plot to compare.
+
+
+ggplot(df3,aes(x=loan_amnt)) + geom_density() + facet_wrap(~grade)
+
+
+```
+
+###Superimposing plots 
+
+```{r superimpose}
+
+ggplot(df3,aes(x=loan_amnt)) + geom_density(aes(fill=grade),alpha=1/2) +
+  scale_fill_brewer(palette="Dark2") + xlab("Loan Amount") + theme_light()
+
+```
+
+### Exercise: To create a time series plot
+```{r time-series}
+
+#Read the data
+df_fb <- read.csv("data/FB.csv")
+
+#Glimpse
+glimpse(df_fb)
+```
+
+```{r}
+#Convert date to Character
+df_fb$Date <- as.Date(df_fb$Date)
+```
+```{r ts-plot}
+#Daily data plot
+ggplot(df_fb,aes(x=Date,y=Close, group=1)) + 
+  geom_line(color="black",na.rm=TRUE)+
+  ggtitle("Daily Closing Stock Prices: Facebook") + 
+  theme(plot.title = element_text(lineheight=.7, face="bold")) + 
+  scale_x_date(date_breaks='3 month')+
+  theme_bw()
+```
+
+
+### Activity
+
+Plot the mean monthly closing stock prices.
+
+```{r ts-plot-sum}
+#Use strftime to get the month for each date
+df_fb$Month <- strftime(df_fb$Date,"%m")
+df_fb$Month <- as.numeric(df_fb$Month)
+ggplot(df_fb, aes(Month,Close)) + 
+  geom_point(color="red",alpha=1/2,position = position_jitter(h=0.0,w=0.0))+
+  geom_line(stat='summary',fun.y=mean, color="blue",size=1)+
+  scale_x_continuous(breaks=seq(0,13,1))+
+  ggtitle("Monthly Closing Stock Prices: Facebook")+theme_classic()
+
+```
+
+## Maps
+
+```{r maps}
+states_map <- map_data("state")
+```
+
+```{r}
+glimpse(states_map)
+```
+
+The map_data() function returns a data frame with the following columns: 
+
+long - Longitude
+
+lat - Latitude
+
+group - This is a grouping variable for each polygon
+
+A region or subregion might have multiple polygons, for example, if it includes islands.
+
+```{r mapplot}
+ggplot(states_map, aes(x=long, y=lat, group=group)) +    geom_polygon(fill="white", colour="black")
+
+ggplot(states_map, aes(x=long, y=lat, group=group)) +    
+  geom_path() + coord_map("mercator")
+
+```
+
+
+### World map data
+
+```{r world}
+# Get map data for world 
+world_map <- map_data("world") 
+#world_map
+``` 
+
+### Map of Europe
+```{r europe}
+
+europe <- map_data("world", region=c("Germany", "Spain", "Italy",                                        "France","UK","Ireland")) 
+ggplot(europe, aes(x=long, y=lat, group=group, fill=region)) +    geom_polygon(colour="black") + scale_fill_brewer(palette="Set3")
+
+
+```
+### Activity
+
+Create a map with regions that are colored according to variable values
+
+```{r activity-maps}
+USStates$Statelower <- as.character(tolower(USStates$State))
+glimpse(USStates)
+
+us_data <- merge(USStates,states_map,by.x="Statelower",by.y="region")
+head(us_data)
+
+```
+Voter Chart for 2012 Elections
+
+```{r}
+ggplot(us_data, aes(x=long, y=lat, group=group, fill=ObamaVote)) +    geom_polygon(colour="black") +
+  coord_map("mercator")+scale_fill_gradient(low="red",high="blue")
+
+```
+Compare the above plot to the voting chart to see which states voted 
+primarily for Obama in the 2012 elections in which Obama won. 
+
+Electoral College Maps: https://www.nytimes.com/2016/08/23/upshot/50-years-of-electoral-college-maps-how-the-us-turned-red-and-blue.html
+
+## Trends, correlations and statistical summaries
+
+### Statistical summaries
+
+Let's do the same time series plot as before, but now along with the mean we
+would also like to plot the median and the 10% and 90% quantiles.
+
+```{r ts-sum}
+#Using stat-summary - Plot Mean closing price per month.
+df_fb$Month <- as.numeric(df_fb$Month)
+ggplot(df_fb, aes(Month,Close)) + 
+  geom_point(color="red",alpha=1/2,position = position_jitter(h=0.0,w=0.0))+
+  geom_line(stat='summary',fun.y=mean, color="blue",size=1)+
+  geom_line(stat='summary',fun.y=median, color="orange",size=1)+
+    geom_line(stat='summary',fun.y=quantile, fun.args=list(probs=0.1),
+            linetype=2,color='green',size=1.)+
+  geom_line(stat='summary',fun.y=quantile, fun.args=list(probs=0.9),
+            linetype=2,color='green',size=1.)+
+  scale_x_continuous(breaks=seq(0,13,1))+
+  ggtitle("Monthly Closing Stock Prices: Facebook")+theme_classic()
+
+```
+
+### Trends and Scatterplots
+One can study trends in data by looking at scatter plots between two variables.
+This reveals if one variable is related to another variable. If variable A
+increases as variable B increases, its a positive correlation. If variable A
+decreases as variable B increases, its a negative correlation. If there is
+no clear trend, then its a zero correlation. The values of the correlation
+coefficient therefore can lie between -1 to +1.
+
+To study if there is a trend, once can add a trend line by fitting the points,
+and studying the "goodness of fit". 
+
+For example, we can add a linear regression line to a scatter plot. 
+
+To do this, we add stat_smooth() and tell it to use method=lm. This instructs it to fit the data with the lm() (linear model) function. 
+
+See the two commands below. The points are color differentitated with country. Note the difference in the two plots. In the first case, the color aesthetic is
+provided to geom_point() while in the second case, its provided when we define the aesthetic for the plot. In the second case, fitted lines are drawn separately for each country.
+
+The points show a positive trend as is also confirmed by the fitted line. In other words, Electricity consumption is positively correlated to the GDP of a country.
+
+```{r scatplot}
+ggplot(dfs, aes(gdp_per_capita,Electricity_consumption_per_capita)) + geom_point(aes(color=Country))+xlim(0,30000)+ stat_smooth(method=lm)
+
+ggplot(dfs, aes(gdp_per_capita,Electricity_consumption_per_capita,color=Country)) + geom_point() + stat_smooth(method=lm)
+  
+```
+
+
+### Correlation plots
+
+Instead of making individual scatter plots, we could also study the correlation
+of all variables at once using a correlation plot.
+
+
+```{r corr}
+#Use only continuous variables columns. Drop "Year","Country"
+dfs1 <- dfs[,colnames(dfs)[4:9]]
+#Remove NA's or correlation won't work
+dfs1 <- na.omit(dfs1)
+M <- cor(dfs1)
+corrplot(M,method="circle")
+```
+
+The plot looks messy because of the long names. Let's change the names to
+shorter names.
+
+```{r corother}
+colnames(dfs1) <- c("gdp","electricity","mort","pov","bmi_m","bmi_f")
+M <- cor(dfs1)
+corrplot(M,method="number")
+```
+
+
+One can see that the positively correlated variables (in Blue and Darkblue) are:
+
+1. GDP and Electricity consumption
+
+2. Electricity consumption and BMI's
+
+3. BMI's of males and females
+
+4. Poverty and under5mortality
+
+The one's which have negative corelation are:
+
+1. mortality and electricity consumption
+
+2. GDP and Poverty.
+
+3. GDP and Mortality
+
+4. Poverty and BMI
+
+One can also try other methods for the correlation plots:
+
+```{r corr-other}
+corrplot(M,method="pie")
+
+corrplot(M,method="ellipse")
+```
+
+In the first plot the fraction of the pie, gives an idea of how strong the correlation is and the color gives whether its positively or negatively correlated. In the second case, the width of the ellipse gives the indication 
+of the correlation. 
+
+a) The "number" option gives us an exact number and there is no ambiguity. However, when one is presenting to an audience, it makes it difficult to
+read.
+
+b) The "circle" option is great visually as its color coded. But the 'ellipse'
+or 'pie' option is even better because one gets a feel for the size as
+well as type of correlation.
+
+```{r activity}
+
+
+```
