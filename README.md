@@ -14,7 +14,9 @@ a) Prosper Financial Loan Data
 
 b) Gapminder socio-economic data
 
-c) Lock5Data
+c) Lock5Data - A collection of different kind of datasets
+
+d) Weather data
 
 d) Financial data downloaded from Yahoo
 
