@@ -9,6 +9,7 @@ This course is meant for professionals who work with data and use R as part of t
 The codes can be found under: Lesson1, Lesson2 and Lesson3
 
 The datasets used for this lessons are to be found in the directory data. The datasets used are:
+
 a) Prosper Financial Loan Data
 
 b) Gapminder socio-economic data
