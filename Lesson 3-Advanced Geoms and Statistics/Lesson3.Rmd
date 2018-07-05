@@ -106,6 +106,14 @@ ggplot(df3,aes(x=loan_amnt)) + geom_density(aes(fill=grade),alpha=1/2) +
 
 ```
 
+###Activity A
+```{r activity-A}
+
+ggplot(RestaurantTips,aes(x=Tip)) + geom_density(aes(color=Day),alpha=0.2) +
+  scale_fill_brewer(palette="Dark2") + xlab("Tip") + scale_x_continuous(breaks=seq(0,15,1)) + theme_classic()
+
+```
+
 ### Exercise: To create a time series plot
 ```{r time-series}
 
