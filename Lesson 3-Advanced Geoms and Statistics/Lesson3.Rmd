@@ -139,7 +139,7 @@ ggplot(df_fb,aes(x=Date,y=Close, group=1)) +
 ```
 
 
-### Activity
+### Activity B
 
 Plot the mean monthly closing stock prices.
 
@@ -200,7 +200,7 @@ ggplot(europe, aes(x=long, y=lat, group=group, fill=region)) +    geom_polygon(c
 
 
 ```
-### Activity
+### Activity C
 
 Create a map with regions that are colored according to variable values
 
@@ -248,24 +248,7 @@ ggplot(df_fb, aes(Month,Close)) +
 ```
 
 ### Trends and Scatterplots
-One can study trends in data by looking at scatter plots between two variables.
-This reveals if one variable is related to another variable. If variable A
-increases as variable B increases, its a positive correlation. If variable A
-decreases as variable B increases, its a negative correlation. If there is
-no clear trend, then its a zero correlation. The values of the correlation
-coefficient therefore can lie between -1 to +1.
-
-To study if there is a trend, once can add a trend line by fitting the points,
-and studying the "goodness of fit". 
-
-For example, we can add a linear regression line to a scatter plot. 
-
-To do this, we add stat_smooth() and tell it to use method=lm. This instructs it to fit the data with the lm() (linear model) function. 
-
-See the two commands below. The points are color differentitated with country. Note the difference in the two plots. In the first case, the color aesthetic is
-provided to geom_point() while in the second case, its provided when we define the aesthetic for the plot. In the second case, fitted lines are drawn separately for each country.
-
-The points show a positive trend as is also confirmed by the fitted line. In other words, Electricity consumption is positively correlated to the GDP of a country.
+One can study trends in data by looking at scatter plots between two variables. This reveals if one variable is related to another variable. 
 
 ```{r scatplot}
 ggplot(dfs, aes(gdp_per_capita,Electricity_consumption_per_capita)) + geom_point(aes(color=Country))+xlim(0,30000)+ stat_smooth(method=lm)
@@ -275,12 +258,7 @@ ggplot(dfs, aes(gdp_per_capita,Electricity_consumption_per_capita,color=Country)
 ```
 
 
-### Correlation plots
-
-Instead of making individual scatter plots, we could also study the correlation
-of all variables at once using a correlation plot.
-
-
+### Correlation plot
 ```{r corr}
 #Use only continuous variables columns. Drop "Year","Country"
 dfs1 <- dfs[,colnames(dfs)[4:9]]
@@ -338,7 +316,15 @@ b) The "circle" option is great visually as its color coded. But the 'ellipse'
 or 'pie' option is even better because one gets a feel for the size as
 well as type of correlation.
 
-```{r activity}
+### Activity D
 
+Studying Correlations and making a scatter plot.
+```{r activity-d}
+
+t <- subset(df3,grade=="A")
+ggplot(t, aes(total_pymnt_inv,total_rec_prncp,color=grade)) + geom_point() + stat_smooth(method=lm)
+
+ggplot(t, aes(funded_amnt,total_pymnt_inv,color=grade)) + geom_point() +
+  stat_smooth(method=lm,color=2)t <- subset(df3,grade=="A")
 
 ```
