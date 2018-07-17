@@ -44,15 +44,17 @@ str(df)
 str(df2)
 str(df3)
 
-#Exercise - Layers
+#Subtopic - Layers
 p1 <- ggplot(df,aes(x=Electricity_consumption_per_capita))
 p2 <- p1+geom_histogram()
 p3 <- p1+geom_histogram(bins=15)
+p3
+
+#Exercise-Layers
 p4 <- p3+xlab("Electricity consumption per capita")
 p4
 
 #Exercise- Scales
-
 p1 <- ggplot(df,aes(x=gdp_per_capita))
 p2 <- p1+geom_histogram()
 p2
@@ -61,13 +63,17 @@ p2
 p2 + scale_x_continuous(breaks=seq(0,40000,4000) )
 
 
-#Coordinates - Differentiating between cartesian and polar coordinates.
+#Subtopic - Coordinates
+#Exercise: Understanding polar coordinates.
+
 #Generate some random time numbers
 t <- seq(0, 360, by=15)
 r <- 2
+qplot(r,t)
+qplot(r,t)+coord_polar(theta="y")
 qplot(r,t)+coord_polar(theta="y")+scale_y_continuous(breaks=seq(0,360,30))
 
-#Activity A
+#Activity A:Applying Grammar of graphics to create a complex visualization
 pA <- ggplot(df, aes(x=gdp_per_capita, y=Electricity_consumption_per_capita)) +
   geom_point() +
   scale_x_continuous(name="GDP",breaks = seq(0,50000,5000),
@@ -78,8 +84,8 @@ pA <- ggplot(df, aes(x=gdp_per_capita, y=Electricity_consumption_per_capita)) +
 pA
 
 
-#Facet
-#Exercise
+#Topic B: Facet
+#Exercise: Using facets to split data
 p <- ggplot(df, aes(x=gdp_per_capita, y=Electricity_consumption_per_capita)) + 
   geom_point()
 p + facet_grid(Country ~ .) #Horizontally Arranged
@@ -87,17 +93,21 @@ p + facet_grid(. ~ Country) #Vertically Arranged
 p + facet_wrap(~Country)
 
 
-#Activity B
+#Activity B:Using faceting to understand data
 pb1<-ggplot(df3,aes(x=loan_amnt))
 pb2<-pb1+geom_histogram(bins=10,fill="cadetblue4")
+
 #Facet_wrap
 pb3<-pb2+facet_wrap(~grade) 
 #Free y coordinate for the subplots
 pb4<-pb3+facet_wrap(~grade, scale="free_y")
 
 #Topic C: Visual components - Color and shape Differentiated
+#Topic C: Using and changing styles and colors
+#Subtopic: using colors in plots
 
-#Exercise - Using colors in plots
+#Exercise - Using color to group points by variable
+dfs <- subset(df,Country %in% c("Germany","India","China","United States"))
 var1<-"Electricity_consumption_per_capita"
 var2<-"gdp_per_capita"
 name1<- "Electricity/capita"
@@ -106,7 +116,7 @@ name2<- "GDP/capita"
 p1<- ggplot(df,aes_string(x=var1,y=var2))+
   geom_point(color=2,shape=2)+xlim(0,10000)+xlab(name1)+ylab(name2)
 #Grouping points by a variable mapped to colour and shape
-p2 <- ggplot(df,aes_string(x=var1,y=var2))+
+p2 <- ggplot(dfs,aes_string(x=var1,y=var2))+
   geom_point(aes(color=Country,shape=Country))+xlim(0,10000)+xlab(name1)+ylab(name2)
 grid.arrange(p1, p2, nrow = 2)
 
@@ -114,7 +124,7 @@ grid.arrange(p1, p2, nrow = 2)
 #Boxplot - color differentiated.
 ggplot(df2,aes(x=GradeID,y=VisitedResources))+geom_boxplot(aes(fill=Class))
 
-#Activity C:
+#Activity C:Using color differentiation in plots
 #color differentiate with credit grade.
 dfn <- df3[,c("home_ownership","loan_amnt","grade")]
 dfn <- na.omit(dfn)
@@ -127,8 +137,9 @@ ggplot(dfn,aes(x=home_ownership,y=loan_amnt))+geom_boxplot(aes(fill=grade))
 ggplot(dfn,aes(x=home_ownership,y=loan_amnt))+geom_boxplot(aes(fill=grade))+
   scale_y_continuous(breaks=seq(0,40000,2000))
 
-#Themes
-#Exercise
+#Subtopic: Themes and changing the appearance of graphs
+
+#Exercise:Using theme to customize a plot
 dfn <- subset(HollywoodMovies, Genre %in% c("Action","Adventure","Comedy","Drama","Romance")
               & LeadStudio %in% c("Fox","Sony","Columbia","Paramount","Disney"))
 p1 <- ggplot(dfn,aes(Genre,WorldGross)) 
@@ -147,7 +158,7 @@ p6 <- p2+theme_classic()+ggtitle("theme_gray()")
 p7 <- p2+theme_minimal()+ggtitle("theme_minimal()")
 grid.arrange(p4,p5,p6,p7,nrow=2,ncol=2)
 
-#Exercise : Create your own theme
+#Exercise : Using or setting your own theme globally
 mytheme <- theme(legend.title = element_blank(),
   legend.position ="bottom",
   text = element_text(colour="Blue"),
@@ -157,6 +168,8 @@ p2 <- p2+ggtitle("Original Plot")
 p8 <- p2+mytheme+ggtitle("Changed Plot with my theme")
 p8
 grid.arrange(p2,p8,ncol=2)
+
+
 
 #Activity D: Use themes and color differentiation in a plot.
 pd1 <- ggplot(df,aes(x=BMI_male,y=BMI_female))
