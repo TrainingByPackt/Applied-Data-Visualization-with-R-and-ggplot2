@@ -1,6 +1,6 @@
-# Beginning-Data-Visualization-with-ggplot2-and-R
+# Beginning-Data-Visualization-with-R and-ggplot2
 
-Code bundles for Beginning Data Visualization with ggplot2 and R, published by Packt.
+Code bundles for Beginning Data Visualization with R and ggplot2, published by Packt.
 
 Author – Tania Moulik(tania.moulik@gmail.com)
 
