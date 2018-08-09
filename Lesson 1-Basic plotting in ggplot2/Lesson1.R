@@ -24,29 +24,20 @@ setwd(".")
 #Check working directory
 getwd()
 
-#Load a data file - Read the Humidity Data
-df_hum <- read.csv("data/historical-hourly-weather-data/humidity.csv")
-
-#Display the summary
-str(df_hum)
-
-#Display the column names
-colnames(df_hum)
-
-#Number of columns and rows
-dim(df_hum)
-
 #Data and variable investigation
 data()
-str(Titanic)
 str(mtcars)
 str(airquality)
 str(rocks)
 str(sleep)
 
-#First plot
-hist(df_hum$Vancouver) 
-qplot(df_hum$Vancouver)
+
+#Topic B: Geomtric Objects
+
+#Exercise: Load and view datasets
+
+#Load the Humidity Data
+df_hum <- read.csv("data/historical-hourly-weather-data/humidity.csv")
 
 #Read weather description data
 df_desc <- read.csv("data/historical-hourly-weather-data/weather_description.csv")
@@ -54,21 +45,20 @@ df_desc <- read.csv("data/historical-hourly-weather-data/weather_description.csv
 str(df_hum)
 str(df_desc)
 
-#TopicB: Geometric Objects
+#Exercise: Creating a histogram using qplot and ggplot
+qplot(df_hum$Vancouver) 
+ggplot(df_hum$Vancouver)
+ggplot(df_hum, aes(x=Vancouver)) + geom_histogram()
 
-#Subtopic: Create one and two-dimensional objects in ggplot
 
-#Histogram using ggplot
-ggplot(df_hum,aes(x=Vancouver))+geom_histogram()
 
-#Activity B : Create a histogram for Temperature data
+#Activity B-1: Create a Histogram and explain its features
 df_t <- read.csv("data/historical-hourly-weather-data/temperature.csv")
-hist(df_t$Vancouver) 
-qplot(df_t$Vancouver)
-ggplot(df_t,aes(x=Vancouver))+geom_histogram()
-ggplot(df_t,aes(x=Seattle))+geom_histogram()
 
-#Subtopic : Barchart
+ggplot(df_t,aes(x=Vancouver))+geom_histogram()
+ggplot(df_t,aes(x=Miami))+geom_histogram()
+
+#Subtopic : Creating Barcharts
 glimpse(df_desc)
 ggplot(df_desc,aes(x=Vancouver)) + geom_bar()
 
@@ -95,12 +85,11 @@ ggplot(MyRetailSales,aes(x=Month,y=Sales)) + geom_bar(stat="identity")
 
 
 #Subtopic : Create a boxplot
-
 #Get the months from the datetime variable and create a month column.
 df_hum$datetime <- as.character(df_hum$datetime)
 df_hum$month <- substr(df_hum$datetime,6,7)
 
-#Instructor Display
+#Display
 ggplot(df_hum,aes(x=month,y=Vancouver)) + geom_boxplot()
 
 #Exercise - Create a boxplot
@@ -160,7 +149,8 @@ ggplot(df_edu,aes(x=gender,y=Discussion)) + geom_boxplot()
 #Subtopic: Understanding and using grammar of graphics
 
 #Rebinning
-ggplot(df_hum,aes(x=Vancouver))+geom_histogram(bins=15)
+ggplot(df_hum,aes(x=Vancouver))+geom_histogram()+ggtitle("Default Binning")
+ggplot(df_hum,aes(x=Vancouver))+geom_histogram(bins=15)+ggtitle("Rebinned")
 
 #Improve plot by chaging defaults
 ggplot(df_hum,aes(x=Vancouver))+
