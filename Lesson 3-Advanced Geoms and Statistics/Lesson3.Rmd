@@ -1,9 +1,11 @@
 ---
-title: "Lesson3: Advanced Geoms and Statistics"
+title: 'Lesson3: Advanced Geoms and Statistics'
 author: "Tania Moulik"
 date: "June 13, 2018"
-output: word_document
-
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -53,15 +55,17 @@ require("dplyr")
 require("Lock5Data")
 require("zoo")
 require("corrplot")
+require("maps")
+require("mapproj")
 
 ```
 Set current working directory to :Beginning-Data-Visualization-with-ggplot2-and-R
 
 ```{r read}
 #Load the data files
-df <- read.csv("data/gapminder-data.csv")
-df2 <- read.csv("data/xAPI-Edu-Data.csv")
-df3 <- read.csv("data/LoanStats.csv")
+df <- read.csv("../data/gapminder-data.csv")
+df2 <- read.csv("../data/xAPI-Edu-Data.csv")
+df3 <- read.csv("../data/LoanStats.csv")
 
 ```
 
@@ -119,7 +123,7 @@ ggplot(RestaurantTips,aes(x=Tip)) + geom_density(aes(color=Day),alpha=0.2) +
 ```{r time-series}
 
 #Read the data
-df_fb <- read.csv("data/FB.csv")
+df_fb <- read.csv("../data/FB.csv")
 
 #Glimpse
 glimpse(df_fb)
@@ -320,12 +324,12 @@ well as type of correlation.
 ### Activity D
 
 Studying Correlations and making a scatter plot.
-```{r activity-d}
+```{r activityd}
 
 t <- subset(df3,grade=="A")
 ggplot(t, aes(total_pymnt_inv,total_rec_prncp,color=grade)) + geom_point() + stat_smooth(method=lm)
 
 ggplot(t, aes(funded_amnt,total_pymnt_inv,color=grade)) + geom_point() +
-  stat_smooth(method=lm,color=2)t <- subset(df3,grade=="A")
+  stat_smooth(method=lm,color=2)
 
 ```
