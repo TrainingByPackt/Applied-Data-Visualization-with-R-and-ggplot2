@@ -33,6 +33,8 @@ setwd(".")
 #Check working directory
 getwd()
 
+#Note: Working directory should be "Beginning-Data-Visualization-with-ggplot2-and-R"
+
 #Load the data files
 df <- read.csv("data/gapminder-data.csv")
 df2 <- read.csv("data/xAPI-Edu-Data.csv")
@@ -168,6 +170,11 @@ p2 <- p2+ggtitle("Original Plot")
 p8 <- p2+mytheme+ggtitle("Changed Plot with my theme")
 p8
 grid.arrange(p2,p8,ncol=2)
+
+#Exercise: Change the color scheme of the given theme
+p4 + scale_fill_brewer(palette="Spectral")
+p4 + scale_fill_brewer(palette="Pastel1")
+p4 + scale_fill_brewer(palette="Oranges")
 
 
 

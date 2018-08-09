@@ -55,6 +55,7 @@ require("zoo")
 require("corrplot")
 
 ```
+Set current working directory to :Beginning-Data-Visualization-with-ggplot2-and-R
 
 ```{r read}
 #Load the data files
