@@ -31,6 +31,9 @@ str(airquality)
 str(rocks)
 str(sleep)
 
+#Exercise: plotting with qplot and R
+hist(airquality$Temp)
+qplot(airquality$Temp)
 
 #Topic B: Geomtric Objects
 
@@ -49,8 +52,6 @@ str(df_desc)
 qplot(df_hum$Vancouver) 
 ggplot(df_hum$Vancouver)
 ggplot(df_hum, aes(x=Vancouver)) + geom_histogram()
-
-
 
 #Activity B-1: Create a Histogram and explain its features
 df_t <- read.csv("data/historical-hourly-weather-data/temperature.csv")
