@@ -171,14 +171,14 @@ p8 <- p2+mytheme+ggtitle("Changed Plot with my theme")
 p8
 grid.arrange(p2,p8,ncol=2)
 
-#Exercise: Change the color scheme of the given theme
+#Exercise: Changing the color scheme of the given theme
 p4 + scale_fill_brewer(palette="Spectral")
 p4 + scale_fill_brewer(palette="Pastel1")
 p4 + scale_fill_brewer(palette="Oranges")
 
 
 
-#Activity D: Use themes and color differentiation in a plot.
+#Activity C: Using themes and color differentiation in a plot
 pd1 <- ggplot(df,aes(x=BMI_male,y=BMI_female))
 pd2 <- pd1+geom_point()
 pd3 <- pd1+geom_point(aes(color=Country),size=2)+
