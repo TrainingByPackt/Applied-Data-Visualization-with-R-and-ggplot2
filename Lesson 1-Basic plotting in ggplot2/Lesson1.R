@@ -28,7 +28,7 @@ getwd()
 data()
 str(mtcars)
 str(airquality)
-str(rocks)
+str(rock)
 str(sleep)
 
 #Exercise: plotting with qplot and R
