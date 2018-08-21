@@ -1,5 +1,5 @@
 '
-Beginning Data Visualization with ggplot2 - Lesson 1
+Applied Data Visualization with ggplot2 - Lesson 1
 
 Description: Codes and activities for Lesson1
 
