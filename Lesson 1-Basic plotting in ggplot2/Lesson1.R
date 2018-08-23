@@ -1,5 +1,5 @@
 '
-Beginning Data Visualization with ggplot2 - Lesson 1
+Applied Data Visualization with ggplot2 - Lesson 1
 
 Description: Codes and activities for Lesson1
 
@@ -28,7 +28,7 @@ getwd()
 data()
 str(mtcars)
 str(airquality)
-str(rocks)
+str(rock)
 str(sleep)
 
 #Exercise: plotting with qplot and R

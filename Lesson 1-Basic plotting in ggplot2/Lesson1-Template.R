@@ -1,5 +1,5 @@
 '
-Beginning Data Visualization with ggplot2 - Lesson 1
+Applied Data Visualization with ggplot2 - Lesson 1
 
 Description: Students template code. This has the libraries 
 and packages pre-installed. Students need to use this to write
