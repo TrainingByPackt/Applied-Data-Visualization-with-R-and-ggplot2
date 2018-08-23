@@ -36,9 +36,9 @@ getwd()
 #Note: Working directory should be "Beginning-Data-Visualization-with-ggplot2-and-R"
 
 #Load the data files
-df <- read.csv("data/gapminder-data.csv")
-df2 <- read.csv("data/xAPI-Edu-Data.csv")
-df3 <- read.csv("data/LoanStats.csv")
+df <- read.csv("../data/gapminder-data.csv")
+df2 <- read.csv("../data/xAPI-Edu-Data.csv")
+df3 <- read.csv("../data/LoanStats.csv")
 
 
 #Summary of the three datasets

@@ -40,10 +40,10 @@ qplot(airquality$Temp)
 #Exercise: Load and view datasets
 
 #Load the Humidity Data
-df_hum <- read.csv("data/historical-hourly-weather-data/humidity.csv")
+df_hum <- read.csv("../data/historical-hourly-weather-data/humidity.csv")
 
 #Read weather description data
-df_desc <- read.csv("data/historical-hourly-weather-data/weather_description.csv")
+df_desc <- read.csv("../data/historical-hourly-weather-data/weather_description.csv")
 
 str(df_hum)
 str(df_desc)
