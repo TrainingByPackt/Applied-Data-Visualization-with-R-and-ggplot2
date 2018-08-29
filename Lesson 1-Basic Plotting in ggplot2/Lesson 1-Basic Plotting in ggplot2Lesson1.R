@@ -176,7 +176,7 @@ ggplot(df_hum,aes(x=month,y=Vancouver)) +
   axis.title.x=element_text(size=15,color=2),
   axis.title.y=element_text(size=15,color=2))
 
-#Activity D - Applying Grammar of graphics to produce an improved plot
+#Activity C - Improving the Default Visualization
 
 p1 <- ggplot(df_edu,aes(x=Topic))
 p2 <- ggplot(df_edu,aes(x=VisitedResources))
