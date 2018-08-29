@@ -53,7 +53,7 @@ qplot(df_hum$Vancouver)
 ggplot(df_hum$Vancouver)
 ggplot(df_hum, aes(x=Vancouver)) + geom_histogram()
 
-#Activity B-1: Create a Histogram and explain its features
+#Activity B-1:Creating a Histogram and Explaining its Features
 df_t <- read.csv("data/historical-hourly-weather-data/temperature.csv")
 
 ggplot(df_t,aes(x=Vancouver))+geom_histogram()
@@ -118,7 +118,7 @@ dfgp1 <- dplyr::summarise(gp1,med = median(Vancouver),
 ggplot(data = dfgp1, aes(x=monthn,y=mean)) + geom_line() + xlab("Month") + 
   ylab("Mean Humidity")
 
-#Activity C - Create One and two-dimensional visualizations given a dataset
+#Activity B-2 - Creating One- and Two-Dimensional Visualizations with a Given Dataset
 df_edu <- read.csv("data/xAPI-Edu-Data.csv")
 str(df_edu)
 
