@@ -34,5 +34,6 @@ You’ll also need the following software installed in advance:
 * RStudio (latest version)
 
 
-
+#### About the Author
+Dr. Tania Moulik has a PhD in particle physics. She worked at CERN and the Tevatron at Fermi National Accelerator Laboratory in IL, USA. She has worked with C++, Python, and R. She also worked in big data projects and grid computing. She has a passion for data analysis and likes to share her knowledge with others who would like to delve into the world of data analytics. She especially likes R and ggplot2 as a powerful analytics package.
 
